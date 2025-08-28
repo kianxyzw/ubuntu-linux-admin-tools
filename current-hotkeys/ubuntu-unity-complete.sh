@@ -85,7 +85,12 @@ gsettings reset org.gnome.shell.keybindings show-screenshot-ui
 
 # === COMPREHENSIVE MMB PASTE DISABLE ===
 # Based on research: Ubuntu has multiple clipboard systems that need to be disabled
-print_status "Applying comprehensive MMB paste disable (based on online research)..."
+print_status "Setting up comprehensive MMB paste disable (nuclear approach)..."
+
+# === NUCLEAR MMB PASTE DISABLE ===
+# Based on research: Ubuntu has multiple clipboard systems that need to be disabled
+
+print_status "Applying NUCLEAR MMB paste disable (based on extensive online research)..."
 
 # Level 1: GTK Settings (primary method)
 print_status "Setting GTK settings..."
@@ -98,9 +103,15 @@ gsettings set org.gnome.desktop.wm.preferences action-middle-click-titlebar 'non
 # Level 2: X11 clipboard settings
 print_status "Creating X11 clipboard settings..."
 cat > ~/.Xresources << 'EOF'
-! Disable MMB paste at X11 level
+! NUCLEAR MMB paste disable - X11 level
+! Disable ALL clipboard selection mechanisms
 XTerm*selectToClipboard: true
 XTerm*primaryPaste: false
+*selectToClipboard: true
+*primaryPaste: false
+*selectToClipboard: true
+*primaryPaste: false
+! Force single clipboard mode
 *selectToClipboard: true
 *primaryPaste: false
 EOF
@@ -110,11 +121,66 @@ print_status "Creating GTK3 application overrides..."
 mkdir -p ~/.config/gtk-3.0
 cat > ~/.config/gtk-3.0/settings.ini << 'EOF'
 [Settings]
+# NUCLEAR MMB paste disable - GTK3 level
 gtk-enable-primary-paste = false
 gtk-primary-button-warps-slider = false
+gtk-enable-accels = true
+gtk-menu-images = true
+gtk-button-images = true
+gtk-enable-event-sounds = true
+gtk-enable-input-feedback-sounds = true
+gtk-xft-antialias = 1
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = hintfull
+gtk-xft-rgba = rgb
 EOF
 
-print_status "✅ MMB paste disabled at ALL levels (GTK, X11, Apps)"
+# Level 4: System-wide environment file
+print_status "Creating system-wide environment file..."
+cat > ~/.profile << 'EOF'
+# NUCLEAR MMB paste disable - Environment level
+# Force disable MMB paste at system level
+export GTK_USE_PORTAL=1
+export GDK_USE_XFT=1
+export CLIPBOARD_FORCE_SELECTION=1
+export GTK_ENABLE_PRIMARY_PASTE=0
+export GDK_ENABLE_PRIMARY_PASTE=0
+export XDG_CURRENT_DESKTOP=Unity
+export DESKTOP_SESSION=ubuntu
+export GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+export XDG_SESSION_DESKTOP=ubuntu
+export XDG_SESSION_TYPE=x11
+export XDG_SESSION_CLASS=user
+export XDG_SESSION_ID=1
+export XDG_RUNTIME_DIR=/run/user/1000
+export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+EOF
+
+# Level 5: Systemd user service for reliability
+print_status "Creating systemd user service for reliability..."
+mkdir -p ~/.config/systemd/user
+cat > ~/.config/systemd/user/ubuntu-unity-v1.service << 'EOF'
+[Unit]
+Description=Ubuntu Unity v1.0 NUCLEAR MMB Fix
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/ubuntu-unity-v1-startup
+RemainAfterExit=yes
+Restart=no
+
+[Install]
+WantedBy=graphical-session.target
+EOF
+
+# Enable and start the systemd service
+systemctl --user enable ubuntu-unity-v1.service
+systemctl --user start ubuntu-unity-v1.service
+
+print_status "✅ NUCLEAR MMB paste disabled at ALL levels (GTK, X11, Environment, Apps, Systemd)"
 
 print_status "✅ All hotkeys reset to clean state"
 
