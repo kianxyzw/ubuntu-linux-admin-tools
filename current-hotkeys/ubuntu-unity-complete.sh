@@ -128,15 +128,26 @@ pkill imwheel 2>/dev/null
 print_status "Creating proper MMB configuration for Unity..."
 cat > ~/.xbindkeysrc << 'EOF'
 # Proper MMB configuration for Unity
-# MMB should open links in new tab, not create new tabs
-# Scrolling is handled by Chrome's built-in MMB autoscroll
+# MMB opens links in new tab AND enables scrolling when held
 
-# Note: We're NOT binding MMB to ctrl+t anymore
-# Instead, we let Chrome handle MMB naturally for:
-# 1. Opening links in new tab when middle-clicking links
-# 2. Autoscroll when middle-clicking and holding on page
+# Button 6 (often the actual middle mouse button) - Enable scrolling
+"xdotool mousedown 2"
+    b:6
 
-# The imwheel configuration below handles smooth scrolling
+# Button 6 release - Stop scrolling
+"xdotool mouseup 2"
+    b:6 + Release
+
+# Button 3 (alternative middle mouse button) - Enable scrolling
+"xdotool mousedown 2"
+    b:3
+
+# Button 3 release - Stop scrolling
+"xdotool mouseup 2"
+    b:3 + Release
+
+# Note: Chrome will handle opening links in new tab naturally
+# This configuration enables MMB scrolling when held down
 EOF
 
 # Setup imwheel for smooth scrolling only (don't interfere with MMB)
@@ -442,7 +453,7 @@ echo "   • Win + Up/Down: Maximize/Unmaximize"
 echo ""
 echo "🖱️  MMB (Middle Mouse Button):"
 echo "   • Opens links in new tab when middle-clicking links"
-echo "   • Autoscroll when middle-clicking and holding on page"
+echo "   • Enables scrolling when MMB is held down"
 echo "   • Enhanced Chrome launcher with proper MMB flags"
 echo "   • Smooth scrolling with mouse wheel (doesn't interfere with MMB)"
 echo ""
@@ -462,14 +473,14 @@ echo "🚀 To get started:"
 echo "   1. Test your hotkeys: Win+E, Win+D, Alt+Shift+S"
 echo "   2. Use Chrome MMB: ~/.local/bin/chrome-mmb"
 echo "   3. Take screenshots: Alt+Shift+S (automatically copied to clipboard)"
-echo "   4. Test MMB: Middle-click links for new tab, hold MMB for autoscroll"
+echo "   4. Test MMB: Middle-click links for new tab, hold MMB for scrolling"
 echo "   5. Restart MMB if needed: ~/.local/bin/ubuntu-unity-complete"
 echo ""
 echo "📝 Notes:"
 echo "   • Some changes may require logout/login to take full effect"
 echo "   • MMB functionality works best in modern browsers"
 echo "   • Screenshots are automatically copied to clipboard for easy pasting"
-echo "   • MMB opens links in new tab, hold for autoscroll (like Windows)"
+echo "   • MMB opens links in new tab, hold for scrolling (like Windows)"
 echo "   • Use Chrome MMB launcher for best MMB experience"
 echo ""
 echo "🔄 To reset everything:"
