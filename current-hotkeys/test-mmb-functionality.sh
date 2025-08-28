@@ -24,9 +24,10 @@ print_error() {
 
 echo "1. Testing MMB Processes..."
 if pgrep xbindkeys >/dev/null; then
-    print_status "✓ xbindkeys is running (MMB new tab)"
+    print_warning "⚠️  xbindkeys is running (this may interfere with Chrome MMB)"
+    print_status "   Chrome MMB works best when xbindkeys is NOT running"
 else
-    print_error "✗ xbindkeys is not running"
+    print_status "✓ xbindkeys is NOT running (Chrome MMB working natively)"
 fi
 
 if pgrep imwheel >/dev/null; then

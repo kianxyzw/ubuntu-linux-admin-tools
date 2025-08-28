@@ -189,9 +189,11 @@ None,      Up,   Button4, 3
 None,      Down, Button5, 3
 EOF
 
-# Start MMB services
+# Start MMB services (Chrome handles MMB natively)
 print_status "Starting MMB services..."
-xbindkeys -f ~/.xbindkeysrc
+# NOTE: We do NOT start xbindkeys as it interferes with Chrome's native MMB
+# Chrome handles MMB natively (new tabs + scrolling) which is superior
+print_status "✓ Chrome MMB handled natively - no xbindkeys interference"
 imwheel
 
 # 5. Setup Screenshots
