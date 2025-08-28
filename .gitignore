@@ -1,0 +1,64 @@
+# Ubuntu Linux Admin Tools - .gitignore
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Screenshots (user-generated content)
+Pictures/Screenshots/
+Screenshots/
+
+# User-specific config files
+.config/autostart/
+.local/bin/
+.xbindkeysrc
+.imwheelrc
+
+# Chrome user data (if any)
+.config/google-chrome/
