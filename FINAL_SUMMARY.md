@@ -67,9 +67,10 @@ This single script does **everything** you requested:
 #### **🖱️ MMB (Middle Mouse Button)**
 - **New tabs**: Middle-click links to open in new tabs (like Windows)
 - **Autoscroll**: Middle-click and hold to enable page scrolling
-- **Enhanced Chrome**: Special launcher with proper MMB flags
-- **Browser integration**: Works with Chrome, Firefox, etc.
-- **Autostart**: Automatically starts on login
+- **Native Chrome handling**: Chrome handles MMB natively (no xbindkeys interference)
+- **Enhanced scrolling**: imwheel provides smooth scrolling system-wide
+- **No MMB paste**: Removes Ubuntu's default clipboard paste behavior
+- **Autostart**: Automatically starts on login with proper settings
 
 #### **📸 Screenshots**
 - **Smart Screenshot**: Multi-option screenshot tool
@@ -78,10 +79,11 @@ This single script does **everything** you requested:
 - **Timestamped files**: Organized screenshot management
 
 #### **🎬 Chrome Enhancement**
-- **MMB support**: Enhanced Chrome launcher with proper MMB flags
+- **Native MMB**: Chrome handles MMB natively (new tabs + scrolling)
+- **Enhanced launcher**: Special Chrome launcher with proper MMB flags
 - **Desktop entry**: Easy access to MMB Chrome
-- **MMB autoscroll**: Middle-click and hold for page scrolling
 - **Optimized flags**: Better performance and compatibility
+- **No interference**: Chrome MMB works without external tools
 
 ## 🛠️ **How to Use**
 
