@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "=== Ubuntu Unity Complete Setup - CLEAN RESET ==="
+echo "=== Ubuntu Unity Complete Setup v0.5 - CLEAN RESET ==="
 echo "One script to rule them all: Hotkeys + MMB + Screenshots"
+echo "Improved MMB scrolling support for Chrome"
 echo ""
 
 # Colors for output
@@ -142,42 +143,34 @@ cat > ~/.xbindkeysrc << 'EOF'
 # Proper MMB configuration for Unity
 # MMB opens links in new tab AND enables scrolling when held
 
-# Button 6 (often the actual middle mouse button) - Enable scrolling
-"xdotool mousedown 2"
-    b:6
+# For Chrome, we'll use a different approach - let Chrome handle MMB naturally
+# and use imwheel for enhanced scrolling
 
-# Button 6 release - Stop scrolling
-"xdotool mouseup 2"
-    b:6 + Release
-
-# Button 3 (alternative middle mouse button) - Enable scrolling
-"xdotool mousedown 2"
-    b:3
-
-# Button 3 release - Stop scrolling
-"xdotool mouseup 2"
-    b:3 + Release
-
-# Note: Chrome will handle opening links in new tab naturally
-# This configuration enables MMB scrolling when held down
+# Note: Chrome handles MMB for new tabs automatically
+# imwheel handles smooth scrolling
+# This configuration focuses on enabling proper scrolling behavior
 EOF
 
-# Setup imwheel for smooth scrolling only (don't interfere with MMB)
-print_status "Setting up imwheel for smooth scrolling only..."
+# Setup imwheel for enhanced scrolling including MMB
+print_status "Setting up imwheel for enhanced scrolling including MMB..."
 cat > ~/.imwheelrc << 'EOF'
-# Smooth scrolling configuration - does NOT interfere with MMB
-# MMB functionality is handled by Chrome's built-in features
+# Enhanced scrolling configuration for Unity
+# This handles both mouse wheel and MMB scrolling
 # Format: window_name, modifier, scroll_up, scroll_down
 
-# Chrome/Chromium - smooth scrolling
+# Chrome/Chromium - enhanced scrolling with MMB support
 ".*chrome.*"
 None,      Up,   Button4, 3
 None,      Down, Button5, 3
+Button2,   Up,   Button4, 3
+Button2,   Down, Button5, 3
 
-# Firefox - smooth scrolling  
+# Firefox - enhanced scrolling with MMB support
 ".*firefox.*"
 None,      Up,   Button4, 3
 None,      Down, Button5, 3
+Button2,   Up,   Button4, 3
+Button2,   Down, Button5, 3
 
 # All other applications - standard scrolling
 ".*"
@@ -245,13 +238,9 @@ show_help() {
 # Function to take region screenshot
 take_region() {
     echo "Select a region to capture..."
-    if command -v flameshot >/dev/null 2>&1; then
-        # Use flameshot for better region selection
-        flameshot gui -p "$filename"
-    else
-        # Fallback to gnome-screenshot
-        gnome-screenshot --area --file="$filename"
-    fi
+    # Use gnome-screenshot by default to avoid configuration conflicts
+    # This provides reliable region selection without config errors
+    gnome-screenshot --area --file="$filename"
     
     if [ -f "$filename" ]; then
         copy_to_clipboard "$filename"
@@ -314,11 +303,11 @@ chmod +x ~/.local/bin/smart-screenshot
 # 6. Create Chrome launcher with proper MMB support
 print_header "Setting Up Chrome MMB Support"
 
-# Create Chrome launcher with proper MMB support
-print_status "Creating Chrome launcher with proper MMB support..."
+# Create Chrome launcher with enhanced MMB support
+print_status "Creating Chrome launcher with enhanced MMB support..."
 cat > ~/.local/bin/chrome-mmb << 'EOF'
 #!/bin/bash
-# Chrome with proper MMB support
+# Chrome with enhanced MMB support for scrolling
 # MMB opens links in new tab and enables autoscroll when held
 google-chrome \
   --enable-features=MiddleClickAutoscroll \
@@ -327,6 +316,8 @@ google-chrome \
   --disable-web-security \
   --disable-features=VizDisplayCompositor \
   --enable-smooth-scrolling \
+  --enable-features=ScrollAnchor \
+  --enable-features=ScrollUnification \
   "$@"
 EOF
 
@@ -465,9 +456,9 @@ echo "   • Win + Up/Down: Maximize/Unmaximize"
 echo ""
 echo "🖱️  MMB (Middle Mouse Button):"
 echo "   • Opens links in new tab when middle-clicking links"
-echo "   • Enables scrolling when MMB is held down"
-echo "   • Enhanced Chrome launcher with proper MMB flags"
-echo "   • Smooth scrolling with mouse wheel (doesn't interfere with MMB)"
+echo "   • Enhanced scrolling when MMB is held down (v0.5 improved)"
+echo "   • Enhanced Chrome launcher with MMB scrolling flags"
+echo "   • Smooth scrolling with mouse wheel + MMB scrolling support"
 echo ""
 echo "📸 Screenshots:"
 echo "   • Smart screenshot tool with multiple options"
@@ -475,6 +466,7 @@ echo "   • Alt+Shift+S for region selection (ONLY hotkey)"
 echo "   • Screenshots automatically copied to clipboard"
 echo "   • Screenshots saved to ~/Pictures/Screenshots/"
 echo "   • Easy pasting anywhere with Ctrl+V"
+echo "   • Uses gnome-screenshot (no configuration conflicts)"
 echo ""
 echo "🛠️  Tools Created:"
 echo "   • ~/.local/bin/smart-screenshot - Enhanced screenshot tool"
@@ -496,6 +488,7 @@ echo "   • MMB functionality works best in modern browsers"
 echo "   • Screenshots are automatically copied to clipboard for easy pasting"
 echo "   • MMB opens links in new tab, hold for scrolling (like Windows)"
 echo "   • Use Chrome MMB launcher for best MMB experience"
+echo "   • Screenshot tool uses gnome-screenshot (avoids config conflicts)"
 echo ""
 echo "🔄 To reset everything again:"
 echo "   dconf reset /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
