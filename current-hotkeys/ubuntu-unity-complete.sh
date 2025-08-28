@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== Ubuntu Unity Complete Setup ==="
+echo "=== Ubuntu Unity Complete Setup - CLEAN RESET ==="
 echo "One script to rule them all: Hotkeys + MMB + Screenshots"
 echo ""
 
@@ -38,23 +38,10 @@ fi
 print_header "System Check"
 if [ "$XDG_CURRENT_DESKTOP" = "Unity" ]; then
     print_status "Unity desktop environment detected - perfect!"
-elif [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
-    print_warning "GNOME detected - this script is optimized for Unity but will work"
 else
-    print_warning "Unknown desktop environment: $XDG_CURRENT_DESKTOP"
+    print_warning "This script is optimized for Unity desktop"
+    print_warning "Current desktop: $XDG_CURRENT_DESKTOP"
 fi
-
-# Install required packages
-print_header "Installing Required Packages"
-print_status "Updating package list..."
-sudo apt update
-
-print_status "Installing essential packages..."
-sudo apt install -y \
-    gnome-screenshot \
-    xdotool \
-    xbindkeys \
-    imwheel
 
 # Install required packages for clipboard support
 print_header "Installing Required Packages"
@@ -73,11 +60,36 @@ mkdir -p ~/.local/bin
 mkdir -p ~/.config/autostart
 mkdir -p ~/Pictures/Screenshots
 
-# 2. Setup Unity Hotkeys
-print_header "Setting Up Unity Hotkeys"
+# 1. COMPLETE HOTKEY RESET
+print_header "COMPLETE HOTKEY RESET - Clean Slate"
+print_status "Resetting ALL Unity hotkeys to default state..."
 
-# Win + D - Show Desktop (this one already works)
-print_status "✓ Win + D: Show Desktop (already configured)"
+# Reset Unity window manager hotkeys
+print_status "Resetting Unity window manager hotkeys..."
+dconf reset /org/gnome/desktop/wm/keybindings/show-desktop
+dconf reset /org/gnome/desktop/wm/keybindings/switch-applications
+dconf reset /org/gnome/desktop/wm/keybindings/maximize
+dconf reset /org/gnome/desktop/wm/keybindings/unmaximize
+dconf reset /org/gnome/desktop/wm/keybindings/tile-to-side-left
+dconf reset /org/gnome/desktop/wm/keybindings/tile-to-side-right
+
+# Reset ALL custom keybindings
+print_status "Resetting ALL custom keybindings..."
+dconf reset /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings
+
+# Reset any conflicting screenshot hotkeys
+print_status "Resetting screenshot hotkeys..."
+gsettings reset org.gnome.shell.keybindings screenshot
+gsettings reset org.gnome.shell.keybindings show-screenshot-ui
+
+print_status "✅ All hotkeys reset to clean state"
+
+# 2. Setup Unity Hotkeys (Fresh Start)
+print_header "Setting Up Unity Hotkeys (Fresh Start)"
+
+# Win + D - Show Desktop
+print_status "Setting Win + D to show desktop..."
+dconf write /org/gnome/desktop/wm/keybindings/show-desktop "['<Super>d']"
 
 # Win + Tab - Switch Applications
 print_status "Setting Win + Tab to switch applications..."
@@ -91,8 +103,8 @@ dconf write /org/gnome/desktop/wm/keybindings/maximize "['<Super>Up']"
 print_status "Setting Win + Down to unmaximize..."
 dconf write /org/gnome/desktop/wm/keybindings/unmaximize "['<Super>Down']"
 
-# 2. Setup Custom Keybindings
-print_header "Setting Up Custom Keybindings"
+# 3. Setup Custom Keybindings (Clean)
+print_header "Setting Up Custom Keybindings (Clean)"
 
 # Create custom keybinding for file manager (Win + E)
 print_status "Creating Win + E for Files..."
@@ -106,8 +118,8 @@ dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/loc
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/lock-screen/command "'gnome-screensaver-command --lock'"
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/lock-screen/binding "'<Super>l'"
 
-# Create custom keybinding for region screenshot (Alt + Shift + S)
-print_status "Creating Alt + Shift + S for Region Screenshot..."
+# Create custom keybinding for region screenshot (Alt + Shift + S) - ONLY ONE
+print_status "Creating Alt + Shift + S for Region Screenshot (ONLY)..."
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/region-screenshot/name "'Region Screenshot'"
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/region-screenshot/command "'$HOME/.local/bin/smart-screenshot'"
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/region-screenshot/binding "'<Alt><Shift>s'"
@@ -116,7 +128,7 @@ dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/reg
 print_status "Adding custom keybindings to Unity..."
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/file-manager/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/lock-screen/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/region-screenshot/']"
 
-# 3. Setup MMB (Middle Mouse Button) Functionality
+# 4. Setup MMB (Middle Mouse Button) Functionality
 print_header "Setting Up MMB Functionality"
 
 # Kill any existing MMB processes
@@ -178,7 +190,7 @@ print_status "Starting MMB services..."
 xbindkeys -f ~/.xbindkeysrc
 imwheel
 
-# 4. Setup Screenshots
+# 5. Setup Screenshots
 print_header "Setting Up Screenshots"
 
 # Create enhanced screenshot script with clipboard support
@@ -299,7 +311,7 @@ EOF
 
 chmod +x ~/.local/bin/smart-screenshot
 
-# 5. Create Chrome launcher with MMB support
+# 6. Create Chrome launcher with proper MMB support
 print_header "Setting Up Chrome MMB Support"
 
 # Create Chrome launcher with proper MMB support
@@ -337,7 +349,7 @@ Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;text/xml;image/svg+xml;application/xml;application/atom+xml;application/rss+xml;application/x-shockwave-flash;application/x-ns-proxy-autoconfig;x-scheme-handler/unknown;text/plain;application/x-vnd.google-chrome.remotedesktop;x-scheme-handler/chrome-extension;
 EOF
 
-# 6. Create startup script
+# 7. Create startup script
 print_header "Setting Up Autostart"
 
 # Create startup script
@@ -353,7 +365,7 @@ NoDisplay=false
 X-GNOME-Autostart-enabled=true
 EOF
 
-# 7. Create utility script for this setup
+# 8. Create utility script for this setup
 print_status "Creating utility script..."
 cat > ~/.local/bin/ubuntu-unity-complete << 'EOF'
 #!/bin/bash
@@ -374,7 +386,7 @@ EOF
 
 chmod +x ~/.local/bin/ubuntu-unity-complete
 
-# 8. Test MMB Functionality
+# 9. Test MMB Functionality
 print_header "Testing MMB Functionality"
 
 # Test MMB configuration
@@ -389,7 +401,7 @@ echo ""
 # Test if MMB processes are running
 print_status "Testing MMB processes..."
 if pgrep xbindkeys >/dev/null; then
-    print_status "✓ xbindkeys is running (MMB new tab)"
+    print_status "✓ xbindkeys is running (MMB scrolling)"
 else
     print_warning "✗ xbindkeys is not running"
 fi
@@ -409,7 +421,7 @@ else
     print_warning "✗ Chrome MMB launcher not found"
 fi
 
-# 9. Final Testing
+# 10. Final Testing
 print_header "Final Testing"
 
 # Test if everything is working
@@ -438,7 +450,7 @@ echo ""
 echo "Custom Keybindings:"
 dconf read /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings
 
-# 9. Summary
+# 11. Summary
 print_header "Setup Complete!"
 echo ""
 echo "🎉 Your Ubuntu Unity system is now enhanced with:"
@@ -446,7 +458,7 @@ echo ""
 echo "🖱️  Hotkeys:"
 echo "   • Win + E: Open Files"
 echo "   • Win + D: Show Desktop"
-echo "   • Alt + Shift + S: Region Screenshot"
+echo "   • Alt + Shift + S: Region Screenshot (ONLY - no conflicts)"
 echo "   • Win + L: Lock Screen"
 echo "   • Win + Tab: Switch Apps"
 echo "   • Win + Up/Down: Maximize/Unmaximize"
@@ -459,7 +471,7 @@ echo "   • Smooth scrolling with mouse wheel (doesn't interfere with MMB)"
 echo ""
 echo "📸 Screenshots:"
 echo "   • Smart screenshot tool with multiple options"
-echo "   • Alt+Shift+S for region selection"
+echo "   • Alt+Shift+S for region selection (ONLY hotkey)"
 echo "   • Screenshots automatically copied to clipboard"
 echo "   • Screenshots saved to ~/Pictures/Screenshots/"
 echo "   • Easy pasting anywhere with Ctrl+V"
@@ -477,13 +489,15 @@ echo "   4. Test MMB: Middle-click links for new tab, hold MMB for scrolling"
 echo "   5. Restart MMB if needed: ~/.local/bin/ubuntu-unity-complete"
 echo ""
 echo "📝 Notes:"
-echo "   • Some changes may require logout/login to take full effect"
+echo "   • ALL hotkeys have been reset and reconfigured cleanly"
+echo "   • Alt+Shift+S is the ONLY region screenshot hotkey (no conflicts)"
+echo "   • RMB behavior should now be normal (no Shift key required)"
 echo "   • MMB functionality works best in modern browsers"
 echo "   • Screenshots are automatically copied to clipboard for easy pasting"
 echo "   • MMB opens links in new tab, hold for scrolling (like Windows)"
 echo "   • Use Chrome MMB launcher for best MMB experience"
 echo ""
-echo "🔄 To reset everything:"
+echo "🔄 To reset everything again:"
 echo "   dconf reset /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 echo "   dconf reset /org/gnome/desktop/wm/keybindings/show-desktop"
 echo "   dconf reset /org/gnome/desktop/wm/keybindings/switch-applications"
