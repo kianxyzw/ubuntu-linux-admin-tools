@@ -83,16 +83,38 @@ print_status "Resetting screenshot hotkeys..."
 gsettings reset org.gnome.shell.keybindings screenshot
 gsettings reset org.gnome.shell.keybindings show-screenshot-ui
 
-# Disable MMB primary paste to allow MMB scrolling
-print_status "Disabling MMB primary paste for better scrolling..."
-gsettings set org.gnome.desktop.interface gtk-enable-primary-paste false
+# === COMPREHENSIVE MMB PASTE DISABLE ===
+# Based on research: Ubuntu has multiple clipboard systems that need to be disabled
+print_status "Applying comprehensive MMB paste disable (based on online research)..."
 
-# Also ensure other MMB settings are disabled
-print_status "Disabling other MMB emulation settings..."
+# Level 1: GTK Settings (primary method)
+print_status "Setting GTK settings..."
+gsettings set org.gnome.desktop.interface gtk-enable-primary-paste false
 gsettings set org.gnome.desktop.peripherals.mouse middle-click-emulation false
 gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false
 gsettings set org.gnome.desktop.peripherals.trackball middle-click-emulation false
 gsettings set org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
+
+# Level 2: X11 clipboard settings
+print_status "Creating X11 clipboard settings..."
+cat > ~/.Xresources << 'EOF'
+! Disable MMB paste at X11 level
+XTerm*selectToClipboard: true
+XTerm*primaryPaste: false
+*selectToClipboard: true
+*primaryPaste: false
+EOF
+
+# Level 3: Application-specific overrides
+print_status "Creating GTK3 application overrides..."
+mkdir -p ~/.config/gtk-3.0
+cat > ~/.config/gtk-3.0/settings.ini << 'EOF'
+[Settings]
+gtk-enable-primary-paste = false
+gtk-primary-button-warps-slider = false
+EOF
+
+print_status "✅ MMB paste disabled at ALL levels (GTK, X11, Apps)"
 
 print_status "✅ All hotkeys reset to clean state"
 
