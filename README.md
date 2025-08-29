@@ -21,16 +21,16 @@
 # Clone and run
 git clone <your-repo>
 cd ubuntu-unity-hotkeys
-chmod +x setup-ubuntu-hotkeys-v1.0.sh
-./setup-ubuntu-hotkeys-v1.0.sh
+chmod +x current-hotkeys/setup-ubuntu-hotkeys-v1.0.sh
+./current-hotkeys/setup-ubuntu-hotkeys-v1.0.sh
 ```
 
 ## 📁 Project Structure
 
 ```
 ubuntu-unity-hotkeys/
-├── setup-ubuntu-hotkeys-v1.0.sh    # 🎯 MAIN SCRIPT - Run this!
-├── current-hotkeys/                 # 📂 Testing & development
+├── current-hotkeys/                 # 🎯 MAIN SCRIPTS & Testing
+│   ├── setup-ubuntu-hotkeys-v1.0.sh    # MAIN SCRIPT - Run this!
 │   ├── test-mmb-functionality.sh   # Test MMB behavior
 │   └── README.md                   # Directory docs
 ├── ffmpeg-tools/                   # 🎬 FFmpeg GUI tools

@@ -1,16 +1,20 @@
 # 📂 Current Hotkeys Directory
 
-This directory contains **testing and development tools** for the Ubuntu Unity hotkeys project.
+This directory contains the **main setup script** and **testing tools** for the Ubuntu Unity hotkeys project.
 
 ## 📁 Contents
 
+- **`setup-ubuntu-hotkeys-v1.0.sh`** - 🎯 **MAIN SCRIPT** - Run this to set up everything!
 - **`test-mmb-functionality.sh`** - Test script to verify MMB (Middle Mouse Button) behavior
 - **`README.md`** - This file
 
-## 🎯 Main Script
+## 🚀 Quick Start
 
-The **main setup script** is now located in the root directory:
 ```bash
+# Make the main script executable
+chmod +x setup-ubuntu-hotkeys-v1.0.sh
+
+# Run the main setup script
 ./setup-ubuntu-hotkeys-v1.0.sh
 ```
 
@@ -21,9 +25,21 @@ The **main setup script** is now located in the root directory:
 ./test-mmb-functionality.sh
 
 # Run main setup script
-../setup-ubuntu-hotkeys-v1.0.sh
+./setup-ubuntu-hotkeys-v1.0.sh
 ```
+
+## 🎯 What the Main Script Does
+
+The `setup-ubuntu-hotkeys-v1.0.sh` script will:
+- ✅ Set up all Windows-style hotkeys (Win+E, Win+D, Alt+Shift+S)
+- ✅ Configure MMB for opening links in new tabs + scrolling
+- ✅ Create enhanced screenshot tools with clipboard support
+- ✅ Set up Chrome with proper MMB support
+- ✅ Configure autostart for persistence across logins
 
 ## 📝 Note
 
-This directory is for development and testing purposes. The main functionality is in the root script `setup-ubuntu-hotkeys-v1.0.sh`.
+This directory now contains everything you need:
+- **Main setup script** for installation
+- **Testing tools** for verification
+- **Complete solution** in one place
