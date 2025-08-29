@@ -603,3 +603,80 @@ echo "   dconf reset /org/gnome/desktop/wm/keybindings/maximize"
 echo "   dconf reset /org/gnome/desktop/wm/keybindings/unmaximize"
 echo ""
 echo "Enjoy your enhanced Ubuntu Unity experience! 🎊"
+
+print_status "Setting up smart MMB handler (prevents paste everywhere except Chrome/Firefox)..."
+
+# Create smart MMB handler
+print_status "Creating smart MMB handler..."
+cat > ~/.local/bin/mmb-smart-handler << 'EOF'
+#!/bin/bash
+# Smart MMB Handler - Dynamically enables/disables MMB based on active window
+# This prevents MMB paste everywhere EXCEPT Chrome/Firefox
+
+# Function to check if we're in Chrome/Firefox
+is_browser() {
+    local active_window=$(xdotool getactivewindow getwindowname 2>/dev/null)
+    [[ "$active_window" == *"Chrome"* ]] || [[ "$active_window" == *"Google Chrome"* ]] || \
+    [[ "$active_window" == *"Firefox"* ]] || [[ "$active_window" == *"Mozilla Firefox"* ]]
+}
+
+# Function to check if we're in a terminal
+is_terminal() {
+    local active_window=$(xdotool getactivewindow getwindowname 2>/dev/null)
+    [[ "$active_window" == *"Terminal"* ]] || [[ "$active_window" == *"xterm"* ]] || \
+    [[ "$active_window" == *"gnome-terminal"* ]] || [[ "$active_window" == *"konsole"* ]]
+}
+
+# Function to enable MMB (normal behavior)
+enable_mmb() {
+    xinput set-button-map "Logitech USB Receiver Mouse" 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+}
+
+# Function to disable MMB (prevent paste)
+disable_mmb() {
+    xinput set-button-map "Logitech USB Receiver Mouse" 1 0 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+}
+
+# Main monitoring loop
+while true; do
+    if is_browser || is_terminal; then
+        enable_mmb
+    else
+        disable_mmb
+    fi
+    sleep 0.5
+done
+EOF
+
+chmod +x ~/.local/bin/mmb-smart-handler
+
+# Start smart MMB handler in background
+print_status "Starting smart MMB handler..."
+~/.local/bin/mmb-smart-handler &
+SMART_MMB_PID=$!
+
+print_status "✅ Smart MMB handler started (PID: $SMART_MMB_PID)"
+
+print_status "Setting up hotkeys..."
+
+# Set up hotkeys using dconf (Unity-compatible)
+print_status "Setting up hotkeys using dconf..."
+
+# Win + E - Open files window
+dconf write /org/gnome/desktop/applications/terminal/exec "'nautilus'"
+dconf write /org/gnome/desktop/applications/terminal/exec-arg "'--new-window'"
+
+# Win + D - Show desktop
+dconf write /org/gnome/desktop/wm/keybindings/show-desktop "['<Super>d']"
+
+# Alt + Shift + S - Region screenshot
+dconf write /org/gnome/settings-daemon/plugins/media-keys/screenshot "'<Alt><Shift>s'"
+
+# Alt + Tab - Switch windows (fix for Win+Tab issue)
+dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Alt>Tab']"
+
+print_status "✅ Hotkeys configured:"
+print_status "   • Win + E: Open files window"
+print_status "   • Win + D: Show desktop"
+print_status "   • Alt + Shift + S: Region screenshot"
+print_status "   • Alt + Tab: Switch windows"
