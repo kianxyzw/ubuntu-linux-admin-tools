@@ -30,8 +30,7 @@ chmod +x setup-ubuntu-hotkeys-v1.0.sh
 ```
 ubuntu-unity-hotkeys/
 ├── setup-ubuntu-hotkeys-v1.0.sh    # 🎯 MAIN SCRIPT - Run this!
-├── current-hotkeys/                 # 📂 Development scripts
-│   ├── ubuntu-unity-complete.sh    # Source of main script
+├── current-hotkeys/                 # 📂 Testing & development
 │   ├── test-mmb-functionality.sh   # Test MMB behavior
 │   └── README.md                   # Directory docs
 ├── ffmpeg-tools/                   # 🎬 FFmpeg GUI tools
