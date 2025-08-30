@@ -1,121 +1,135 @@
-# 🚀 Ubuntu Unity Hotkeys & MMB Fix - v1.0 FINAL
+# Ubuntu Unity Hotkeys & MMB Setup
 
-> **Complete Ubuntu Unity hotkey setup with persistent MMB (Middle Mouse Button) fix**
+A comprehensive setup script for Ubuntu Unity that provides enhanced hotkeys, smart MMB (Middle Mouse Button) functionality, and screenshot tools.
 
-[![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04+-orange.svg)](https://ubuntu.com/)
-[![Desktop](https://img.shields.io/badge/Desktop-Unity-blue.svg)](https://unity.ubuntu.com/)
-[![Status](https://img.shields.io/badge/Status-Production%20Ready-green.svg)](https://github.com/yourusername/ubuntu-unity-hotkeys)
+## 🎯 What This Provides
 
-## ✨ Features
+### 🖱️ **Hotkeys**
+- **Win + E**: Open Files window
+- **Win + D**: Show Desktop  
+- **Alt + Shift + S**: Region Screenshot (automatically copied to clipboard)
+- **Win + L**: Lock Screen
+- **Win + Tab**: Switch Applications
+- **Win + Up/Down**: Maximize/Unmaximize
 
-- **🎯 Complete Hotkey Setup**: Win+E (Files), Win+D (Desktop), Alt+Shift+S (Screenshot)
-- **🖱️ Smart MMB Control**: Opens links in new tabs + scrolls in Chrome, disabled elsewhere
-- **📋 Screenshot to Clipboard**: Region screenshots automatically copied for pasting
-- **🔄 Persistent Configuration**: Survives logout/login with autostart method
-- **⚡ Enhanced Scrolling**: Smooth scrolling with imwheel
-- **🎨 Chrome MMB Enhanced**: Custom Chrome launcher with MMB autoscroll
+### 🖱️ **Smart MMB (Middle Mouse Button)**
+- **In Chrome/Firefox**: MMB works normally (new tabs + scrolling)
+- **Everywhere else**: MMB is disabled (prevents accidental pasting)
+- **Dynamic switching**: Automatically enables/disables based on active window
+- **Enhanced scrolling**: imwheel provides smooth scrolling support
+
+### 📸 **Screenshots**
+- **Smart screenshot tool** with multiple options
+- **Automatic clipboard copy** for easy pasting
+- **Organized storage** in `~/Pictures/Screenshots/`
+- **No configuration conflicts** (uses gnome-screenshot)
 
 ## 🚀 Quick Start
 
+### 1. **Run the Setup Script**
 ```bash
-# Clone and run
-git clone <your-repo>
-cd ubuntu-unity-hotkeys
-chmod +x current-hotkeys/setup-ubuntu-hotkeys-v1.0.sh
-./current-hotkeys/setup-ubuntu-hotkeys-v1.0.sh
+chmod +x setup-ubuntu-hotkeys.sh
+./setup-ubuntu-hotkeys.sh
 ```
 
-## 📁 Project Structure
-
-```
-ubuntu-unity-hotkeys/
-├── current-hotkeys/                 # 🎯 MAIN SCRIPTS & Testing
-│   ├── setup-ubuntu-hotkeys-v1.0.sh    # MAIN SCRIPT - Run this!
-│   ├── test-mmb-functionality.sh   # Test MMB behavior
-│   └── README.md                   # Directory docs
-├── ffmpeg-tools/                   # 🎬 FFmpeg GUI tools
-│   ├── ffmpeg_gui.py              # Advanced FFmpeg GUI
-│   ├── ffmpeg_gui_simple.py       # Simple FFmpeg GUI
-│   └── launch_ffmpeg_gui.sh       # Launcher script
-├── README.md                       # 📖 This file
-├── FINAL_SUMMARY.md               # 📋 Complete project summary
-└── .gitignore                     # 🚫 Git ignore rules
+### 2. **Use Chrome with MMB Support**
+```bash
+~/.local/bin/chrome-mmb
 ```
 
-## 🎯 What Gets Set Up
+### 3. **Take Screenshots**
+- **Alt + Shift + S**: Region selection (automatically copied to clipboard)
+- **Ctrl + V**: Paste screenshots anywhere
 
-### Hotkeys
-- **Win + E** → Opens Files window
-- **Win + D** → Shows desktop  
-- **Alt + Shift + S** → Region screenshot + clipboard copy
+## 🏗️ Repository Structure
 
-### MMB (Middle Mouse Button)
-- **Chrome/Firefox**: Opens links in new tabs + scrolls when held
-- **Other apps**: Completely disabled (no paste)
-- **Persistent**: Survives logout/login
-
-### Enhanced Features
-- **Smooth scrolling** with imwheel
-- **Chrome MMB launcher** with autoscroll flags
-- **Autostart configuration** for persistence
+```
+sandbox_linux_admin/
+├── setup-ubuntu-hotkeys.sh          # Main setup script (v1.0 FINAL)
+├── README.md                        # This documentation
+├── current-hotkeys/                 # Hotkey-related files
+│   └── README.md                   # Hotkey-specific documentation
+└── ffmpeg-tools/                    # Separate FFmpeg project
+    ├── launch_ffmpeg_gui.sh        # FFmpeg GUI launcher
+    ├── FFMPEG_README.md            # FFmpeg documentation
+    └── FFMPEG_GUI_README.md        # FFmpeg GUI documentation
+```
 
 ## 🔧 How It Works
 
-1. **Complete hotkey reset** for clean slate
-2. **Unity-specific configuration** using dconf
-3. **Smart MMB handler** via autostart (not systemd)
-4. **Enhanced Chrome launcher** with MMB flags
-5. **Persistent configuration** across sessions
+### **Smart MMB Handler**
+The system uses a smart MMB handler that dynamically enables/disables MMB based on the active window:
+- **Browsers (Chrome/Firefox)**: MMB enabled for new tabs and scrolling
+- **Terminals**: MMB enabled for scrolling
+- **Other applications**: MMB disabled to prevent accidental pasting
+
+### **Chrome MMB Support**
+- Chrome handles MMB natively (no interference)
+- Enhanced scrolling with `--enable-features=MiddleClickAutoscroll`
+- Smooth scrolling with `--enable-smooth-scrolling`
+
+### **Persistence**
+- **Autostart**: Automatically runs on login
+- **Smart handler**: Continuously monitors and adjusts MMB behavior
+- **gsettings**: System-level MMB paste disable
 
 ## 🧪 Testing
 
-```bash
-# Test MMB functionality
-./current-hotkeys/test-mmb-functionality.sh
+### **Test MMB Functionality**
+1. **Open Chrome**: `~/.local/bin/chrome-mmb`
+2. **Test MMB**: Middle-click links (should open in new tab)
+3. **Test MMB Scroll**: Hold MMB and move mouse (should scroll)
+4. **Switch to Terminal**: MMB should be disabled (no paste)
+5. **Switch back to Chrome**: MMB should be enabled again
 
-# Test hotkeys manually
-# Win+E, Win+D, Alt+Shift+S
+### **Test Hotkeys**
+- **Win + E**: Should open Files window
+- **Win + D**: Should show desktop
+- **Alt + Shift + S**: Should open region screenshot tool
+
+## 🔄 Troubleshooting
+
+### **If MMB Paste Returns**
+The smart handler should automatically fix this, but if issues persist:
+```bash
+# Restart the smart handler
+~/.local/bin/ubuntu-unity-complete
 ```
 
-## 📋 Requirements
+### **If Hotkeys Don't Work**
+```bash
+# Reset Unity hotkeys
+dconf reset /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings
+dconf reset /org/gnome/desktop/wm/keybindings/show-desktop
+```
 
-- Ubuntu 22.04+ with Unity desktop
-- Internet connection for package installation
-- User with sudo privileges
+### **Reset Everything**
+```bash
+# Run the setup script again
+./setup-ubuntu-hotkeys.sh
+```
 
-## 🚨 Troubleshooting
+## 📝 Notes
 
-### MMB Still Pastes?
-- Run the main script again
-- Check if autostart is working: `ls ~/.config/autostart/`
-- Verify MMB handler is running: `pgrep -f mmb-smart-handler`
+- **MMB paste setting** may require logout/login to fully take effect
+- **Chrome MMB** works best with the provided launcher script
+- **Screenshots** are automatically copied to clipboard for easy pasting
+- **All configurations** are persistent across restarts
 
-### Hotkeys Not Working?
-- Run the main script again
-- Check Unity settings: `dconf-editor`
-- Verify no conflicts with other tools
+## 🎉 What Makes This Special
 
-## 📝 Changelog
+This setup provides the **best of both worlds**:
+- ✅ **MMB works perfectly in Chrome** (new tabs + scrolling)
+- ✅ **MMB paste is disabled everywhere else** (no accidental pasting)
+- ✅ **Dynamic switching** based on active application
+- ✅ **No theme interference** or aggressive overrides
+- ✅ **Production ready** with comprehensive error handling
 
-### v1.0 FINAL
-- ✅ All hotkeys working
-- ✅ MMB persistence fixed with autostart method
-- ✅ Clean project structure
-- ✅ Comprehensive documentation
-- ✅ Production ready
+## 📚 Version History
 
-## 🤝 Contributing
-
-This is a complete solution, but improvements are welcome:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📄 License
-
-MIT License - see LICENSE file for details
+- **v1.0 FINAL**: Complete Ubuntu Unity hotkeys with persistent MMB fix
+- **Current**: Clean, organized repository with working v1.0 FINAL approach
 
 ---
 
-**🎉 Congratulations! You now have a fully functional Ubuntu Unity setup with working hotkeys and persistent MMB control!** 
+**Enjoy your enhanced Ubuntu Unity experience!** 🎊 
