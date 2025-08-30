@@ -28,8 +28,8 @@ A comprehensive setup script for Ubuntu Unity that provides enhanced hotkeys, sm
 
 ### 1. **Run the Setup Script**
 ```bash
-chmod +x setup-ubuntu-hotkeys.sh
-./setup-ubuntu-hotkeys.sh
+chmod +x current-hotkeys/setup-ubuntu-hotkeys.sh
+./current-hotkeys/setup-ubuntu-hotkeys.sh
 ```
 
 ### 2. **Use Chrome with MMB Support**
@@ -45,9 +45,9 @@ chmod +x setup-ubuntu-hotkeys.sh
 
 ```
 sandbox_linux_admin/
-├── setup-ubuntu-hotkeys.sh          # Main setup script (v1.0 FINAL)
 ├── README.md                        # This documentation
 ├── current-hotkeys/                 # Hotkey-related files
+│   ├── setup-ubuntu-hotkeys.sh     # Main setup script (v1.0 FINAL)
 │   └── README.md                   # Hotkey-specific documentation
 └── ffmpeg-tools/                    # Separate FFmpeg project
     ├── launch_ffmpeg_gui.sh        # FFmpeg GUI launcher
@@ -106,7 +106,7 @@ dconf reset /org/gnome/desktop/wm/keybindings/show-desktop
 ### **Reset Everything**
 ```bash
 # Run the setup script again
-./setup-ubuntu-hotkeys.sh
+./current-hotkeys/setup-ubuntu-hotkeys.sh
 ```
 
 ## 📝 Notes
