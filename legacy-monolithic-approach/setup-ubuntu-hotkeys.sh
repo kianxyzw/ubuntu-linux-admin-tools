@@ -169,7 +169,7 @@ Wants=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/ubuntu-unity-v1-startup
+ExecStart=%h/.local/bin/ubuntu-unity-complete
 RemainAfterExit=yes
 Restart=no
 

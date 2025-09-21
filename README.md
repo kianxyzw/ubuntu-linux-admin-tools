@@ -1,135 +1,128 @@
-# Ubuntu Unity Hotkeys & MMB Setup
+# Ubuntu Desktop Enhancement Scripts
 
-A comprehensive setup script for Ubuntu Unity that provides enhanced hotkeys, smart MMB (Middle Mouse Button) functionality, and screenshot tools.
+A collection of scripts to enhance Ubuntu 24.04 GNOME desktop with Windows-style hotkeys, improved MMB behavior, and enhanced screenshot functionality.
 
-## 🎯 What This Provides
+## 🎯 What This Does
 
-### 🖱️ **Hotkeys**
-- **Win + E**: Open Files window
-- **Win + D**: Show Desktop  
-- **Alt + Shift + S**: Region Screenshot (automatically copied to clipboard)
+- **Windows-style hotkeys**: Win+E, Win+D, Alt+Shift+S, etc.
+- **Enhanced screenshots**: Smart screenshot tool with clipboard integration
+- **MMB behavior improvements**: Reduces accidental pasting (with Chrome limitations)
+- **System optimization**: Clean, modular, and maintainable approach
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd ubuntu-desktop-enhancements
+
+# Run the modular setup (recommended)
+cd modular-approach
+./ubuntu-unity-manager.sh install
+```
+
+## 📁 Project Structure
+
+```
+├── modular-approach/           # Recommended modular implementation
+│   ├── ubuntu-unity-manager.sh # Main control script
+│   └── modules/               # Individual feature modules
+└── README.md                  # This file
+```
+
+## ✅ What Works
+
+- **Hotkeys**: All Windows-style hotkeys work perfectly
+- **Screenshots**: Enhanced screenshot tool with clipboard support
+- **System MMB paste**: Disabled in most applications
+- **Chrome MMB functions**: New tabs, autoscroll, tab closing work
+- **Modular design**: Easy to maintain and extend
+
+## ⚠️ Known Limitations
+
+### Chrome MMB Paste Issue
+**Problem**: Middle mouse button still pastes in Chrome text fields.
+
+**Why**: Chrome's MMB paste is hardcoded at the browser engine level and cannot be disabled through any known method (flags, extensions, or policies).
+
+**Solutions**:
+1. **Use Firefox**: Has a setting to disable MMB paste completely
+2. **Be mindful**: Avoid middle-clicking in Chrome text fields
+3. **Clear selection**: Select nothing before using MMB in Chrome
+
+**Research Status**: Extensively researched - this affects all Chrome users on Linux.
+
+## 🛠️ Usage
+
+### Install Everything
+```bash
+./ubuntu-unity-manager.sh install
+```
+
+### Check Status
+```bash
+./ubuntu-unity-manager.sh status
+```
+
+### Test Configuration
+```bash
+./ubuntu-unity-manager.sh test
+```
+
+### Reset if Needed
+```bash
+./ubuntu-unity-manager.sh reset
+```
+
+## 🎯 Target System
+
+- **OS**: Ubuntu 24.04 LTS
+- **Desktop**: GNOME (default Ubuntu desktop)
+- **Architecture**: x64
+- **Requirements**: Standard Ubuntu installation
+
+## 🔧 Features Included
+
+### Hotkeys
+- **Win + E**: Open Files (Nautilus)
+- **Win + D**: Show Desktop
+- **Alt + Shift + S**: Region Screenshot
 - **Win + L**: Lock Screen
 - **Win + Tab**: Switch Applications
 - **Win + Up/Down**: Maximize/Unmaximize
 
-### 🖱️ **Smart MMB (Middle Mouse Button)**
-- **In Chrome/Firefox**: MMB works normally (new tabs + scrolling)
-- **Everywhere else**: MMB is disabled (prevents accidental pasting)
-- **Dynamic switching**: Automatically enables/disables based on active window
-- **Enhanced scrolling**: imwheel provides smooth scrolling support
+### Screenshots
+- **Smart screenshot tool**: Multiple capture modes
+- **Automatic clipboard copy**: Screenshots copied for easy pasting
+- **Organized storage**: Saved to ~/Pictures/Screenshots/
+- **Multiple formats**: Region, window, full screen
 
-### 📸 **Screenshots**
-- **Smart screenshot tool** with multiple options
-- **Automatic clipboard copy** for easy pasting
-- **Organized storage** in `~/Pictures/Screenshots/`
-- **No configuration conflicts** (uses gnome-screenshot)
-
-## 🚀 Quick Start
-
-### 1. **Run the Setup Script**
-```bash
-chmod +x current-hotkeys/setup-ubuntu-hotkeys.sh
-./current-hotkeys/setup-ubuntu-hotkeys.sh
-```
-
-### 2. **Use Chrome with MMB Support**
-```bash
-~/.local/bin/chrome-mmb
-```
-
-### 3. **Take Screenshots**
-- **Alt + Shift + S**: Region selection (automatically copied to clipboard)
-- **Ctrl + V**: Paste screenshots anywhere
-
-## 🏗️ Repository Structure
-
-```
-sandbox_linux_admin/
-├── README.md                        # This documentation
-├── current-hotkeys/                 # Hotkey-related files
-│   ├── setup-ubuntu-hotkeys.sh     # Main setup script (v1.0 FINAL)
-│   └── README.md                   # Hotkey-specific documentation
-└── ffmpeg-tools/                    # Separate FFmpeg project
-    ├── launch_ffmpeg_gui.sh        # FFmpeg GUI launcher
-    ├── FFMPEG_README.md            # FFmpeg documentation
-    └── FFMPEG_GUI_README.md        # FFmpeg GUI documentation
-```
-
-## 🔧 How It Works
-
-### **Smart MMB Handler**
-The system uses a smart MMB handler that dynamically enables/disables MMB based on the active window:
-- **Browsers (Chrome/Firefox)**: MMB enabled for new tabs and scrolling
-- **Terminals**: MMB enabled for scrolling
-- **Other applications**: MMB disabled to prevent accidental pasting
-
-### **Chrome MMB Support**
-- Chrome handles MMB natively (no interference)
-- Enhanced scrolling with `--enable-features=MiddleClickAutoscroll`
-- Smooth scrolling with `--enable-smooth-scrolling`
-
-### **Persistence**
-- **Autostart**: Automatically runs on login
-- **Smart handler**: Continuously monitors and adjusts MMB behavior
-- **gsettings**: System-level MMB paste disable
+### MMB Improvements
+- **System-wide paste disabled**: Prevents accidental pasting in terminals, editors
+- **Chrome functions preserved**: New tabs, autoscroll, tab closing still work
+- **Enhanced scrolling**: Smooth scrolling improvements
 
 ## 🧪 Testing
 
-### **Test MMB Functionality**
-1. **Open Chrome**: `~/.local/bin/chrome-mmb`
-2. **Test MMB**: Middle-click links (should open in new tab)
-3. **Test MMB Scroll**: Hold MMB and move mouse (should scroll)
-4. **Switch to Terminal**: MMB should be disabled (no paste)
-5. **Switch back to Chrome**: MMB should be enabled again
+The scripts have been tested on:
+- Fresh Ubuntu 24.04 installation
+- Mixed GNOME/Unity systems (after reset to pure GNOME)
+- Various hardware configurations
 
-### **Test Hotkeys**
-- **Win + E**: Should open Files window
-- **Win + D**: Should show desktop
-- **Alt + Shift + S**: Should open region screenshot tool
+## 🤝 Contributing
 
-## 🔄 Troubleshooting
+This project documents real-world solutions for Ubuntu desktop enhancement. Contributions welcome for:
+- Additional hotkey configurations
+- Alternative MMB solutions
+- System compatibility improvements
+- Documentation updates
 
-### **If MMB Paste Returns**
-The smart handler should automatically fix this, but if issues persist:
-```bash
-# Restart the smart handler
-~/.local/bin/ubuntu-unity-complete
-```
+## 📝 License
 
-### **If Hotkeys Don't Work**
-```bash
-# Reset Unity hotkeys
-dconf reset /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings
-dconf reset /org/gnome/desktop/wm/keybindings/show-desktop
-```
+MIT License - Feel free to use and modify.
 
-### **Reset Everything**
-```bash
-# Run the setup script again
-./current-hotkeys/setup-ubuntu-hotkeys.sh
-```
+## 🔗 Related
 
-## 📝 Notes
-
-- **MMB paste setting** may require logout/login to fully take effect
-- **Chrome MMB** works best with the provided launcher script
-- **Screenshots** are automatically copied to clipboard for easy pasting
-- **All configurations** are persistent across restarts
-
-## 🎉 What Makes This Special
-
-This setup provides the **best of both worlds**:
-- ✅ **MMB works perfectly in Chrome** (new tabs + scrolling)
-- ✅ **MMB paste is disabled everywhere else** (no accidental pasting)
-- ✅ **Dynamic switching** based on active application
-- ✅ **No theme interference** or aggressive overrides
-- ✅ **Production ready** with comprehensive error handling
-
-## 📚 Version History
-
-- **v1.0 FINAL**: Complete Ubuntu Unity hotkeys with persistent MMB fix
-- **Current**: Clean, organized repository with working v1.0 FINAL approach
-
----
-
-**Enjoy your enhanced Ubuntu Unity experience!** 🎊 
+- [Ubuntu GNOME Documentation](https://help.gnome.org/)
+- [Chrome MMB Paste Issue Discussion](https://bugs.chromium.org/)
+- [Firefox MMB Configuration](https://support.mozilla.org/)
