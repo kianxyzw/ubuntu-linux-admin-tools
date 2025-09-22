@@ -1,6 +1,6 @@
 #!/bin/bash
-# Ubuntu Unity Manager
-# Main control script for Ubuntu Unity setup
+# Ubuntu GNOME Manager
+# Main control script for Ubuntu GNOME setup
 
 set -euo pipefail
 
@@ -19,7 +19,7 @@ source "$SCRIPT_DIR/modules/autostart.sh"
 
 # Show help
 show_help() {
-    echo "Ubuntu Unity Manager"
+    echo "Ubuntu GNOME Manager"
     echo ""
     echo "Commands:"
     echo "  install   - Install everything"
@@ -38,7 +38,7 @@ show_help() {
 
 # Install everything
 install_all() {
-    header "Ubuntu Unity Manager - Complete Installation"
+    header "Ubuntu GNOME Manager - Complete Installation"
     
     # Check prerequisites
     check_prerequisites
@@ -99,13 +99,13 @@ restart_services() {
     
     # Kill existing processes
     log "Stopping existing services..."
-    pkill -f "ubuntu-unity-startup" || true
+    pkill -f "ubuntu-gnome-startup" || true
     # pkill -f "imwheel" || true  # DEPRECATED: MMB handler disabled
     
     # Restart services
     log "Starting services..."
-    if [[ -x "$HOME/.local/bin/ubuntu-unity-startup" ]]; then
-        nohup "$HOME/.local/bin/ubuntu-unity-startup" >/dev/null 2>&1 &
+    if [[ -x "$HOME/.local/bin/ubuntu-gnome-startup" ]]; then
+        nohup "$HOME/.local/bin/ubuntu-gnome-startup" >/dev/null 2>&1 &
         log "✓ Startup script restarted"
     fi
     
@@ -118,14 +118,14 @@ restart_services() {
 
 # Show status
 show_status() {
-    header "Ubuntu Unity Status"
+    header "Ubuntu GNOME Status"
     
     # Check processes
     echo "Running Processes:"
-    if pgrep -f "ubuntu-unity-startup" >/dev/null; then
-        echo "  ✓ ubuntu-unity-startup: Running"
+    if pgrep -f "ubuntu-gnome-startup" >/dev/null; then
+        echo "  ✓ ubuntu-gnome-startup: Running"
     else
-        echo "  ✗ ubuntu-unity-startup: Not running"
+        echo "  ✗ ubuntu-gnome-startup: Not running"
     fi
     
     # MMB handler deprecated
@@ -140,8 +140,8 @@ show_status() {
     echo "Configuration Files:"
     local files=(
         "$HOME/.local/bin/smart-screenshot"
-        "$HOME/.local/bin/ubuntu-unity-startup"
-        "$HOME/.config/autostart/ubuntu-unity-startup.desktop"
+        "$HOME/.local/bin/ubuntu-gnome-startup"
+        "$HOME/.config/autostart/ubuntu-gnome-enhancements.desktop"
         # "$HOME/.imwheelrc"  # DEPRECATED: MMB handler disabled
     )
     
@@ -169,7 +169,7 @@ show_status() {
 create_backup() {
     header "Creating Backup"
     
-    local backup_dir="$HOME/.ubuntu-unity-backup-$(date +%Y%m%d_%H%M%S)"
+    local backup_dir="$HOME/.ubuntu-gnome-backup-$(date +%Y%m%d_%H%M%S)"
     mkdir -p "$backup_dir"
     
     # Backup configuration files
@@ -177,8 +177,8 @@ create_backup() {
         "$HOME/.imwheelrc"
         "$HOME/.profile"
         "$HOME/.local/bin/smart-screenshot"
-        "$HOME/.local/bin/ubuntu-unity-startup"
-        "$HOME/.config/autostart/ubuntu-unity-startup.desktop"
+        "$HOME/.local/bin/ubuntu-gnome-startup"
+        "$HOME/.config/autostart/ubuntu-gnome-enhancements.desktop"
     )
     
     for file in "${files_to_backup[@]}"; do

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hotkeys Module
-# Sets up Windows-style hotkeys for Ubuntu Unity
+# Sets up Windows-style hotkeys for Ubuntu GNOME
 
 setup_hotkeys() {
     header "Setting Up Hotkeys"
@@ -13,8 +13,8 @@ setup_hotkeys() {
     dconf reset /org/gnome/desktop/wm/keybindings/maximize || true
     dconf reset /org/gnome/desktop/wm/keybindings/unmaximize || true
     
-    # Set up Unity window manager hotkeys
-    log "Setting up Unity window manager hotkeys..."
+    # Set up GNOME window manager hotkeys
+    log "Setting up GNOME window manager hotkeys..."
     
     # Win + D - Show Desktop
     dconf write /org/gnome/desktop/wm/keybindings/show-desktop "['<Super>d']"
@@ -65,8 +65,8 @@ test_hotkeys() {
     
     log "Current hotkey configuration:"
     
-    # Test Unity window manager hotkeys
-    echo "Unity Window Manager Hotkeys:"
+    # Test GNOME window manager hotkeys
+    echo "GNOME Window Manager Hotkeys:"
     echo "  Show Desktop: $(dconf read /org/gnome/desktop/wm/keybindings/show-desktop)"
     echo "  Switch Apps: $(dconf read /org/gnome/desktop/wm/keybindings/switch-applications)"
     echo "  Maximize: $(dconf read /org/gnome/desktop/wm/keybindings/maximize)"

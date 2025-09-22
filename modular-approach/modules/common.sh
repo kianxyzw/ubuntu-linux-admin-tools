@@ -9,8 +9,8 @@ readonly BLUE='\033[0;34m'
 readonly NC='\033[0m'
 
 # Configuration
-readonly BACKUP_DIR="$HOME/.ubuntu-unity-backup-$(date +%Y%m%d_%H%M%S)"
-readonly LOG_FILE="$HOME/.ubuntu-unity-setup.log"
+readonly BACKUP_DIR="$HOME/.ubuntu-gnome-backup-$(date +%Y%m%d_%H%M%S)"
+readonly LOG_FILE="$HOME/.ubuntu-gnome-setup.log"
 
 # Logging functions
 log() {
@@ -50,8 +50,8 @@ check_prerequisites() {
     fi
     
     # Check desktop environment
-    if [[ "${XDG_CURRENT_DESKTOP:-}" != "Unity" ]]; then
-        warn "This script is optimized for Unity desktop (current: ${XDG_CURRENT_DESKTOP:-unknown})"
+    if [[ "${XDG_CURRENT_DESKTOP:-}" != "ubuntu:GNOME" ]] && [[ "${XDG_CURRENT_DESKTOP:-}" != "GNOME" ]]; then
+        warn "This script is optimized for GNOME desktop (current: ${XDG_CURRENT_DESKTOP:-unknown})"
         read -p "Continue anyway? (y/N): " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
