@@ -1,4 +1,5 @@
 # Ubuntu Desktop Enhancement Scripts
+# this is comment
 
 A collection of scripts to enhance Ubuntu 24.04 GNOME desktop with Windows-style hotkeys, improved MMB behavior, and enhanced screenshot functionality.
 

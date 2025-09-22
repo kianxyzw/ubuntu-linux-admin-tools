@@ -34,14 +34,14 @@ EOF
     # Create desktop entry for Chrome MMB
     log "Creating desktop entry for Chrome MMB..."
     mkdir -p "$HOME/.local/share/applications"
-    cat > "$HOME/.local/share/applications/google-chrome-mmb.desktop" << 'EOF'
+    cat > "$HOME/.local/share/applications/google-chrome-mmb.desktop" << EOF
 [Desktop Entry]
 Version=1.0
 Type=Application
 Name=Chrome (MMB Enhanced)
 GenericName=Web Browser
 Comment=Google Chrome with enhanced MMB support
-Exec=%h/.local/bin/chrome-mmb
+Exec=$HOME/.local/bin/chrome-mmb
 Icon=google-chrome
 Terminal=false
 Categories=Network;WebBrowser;
