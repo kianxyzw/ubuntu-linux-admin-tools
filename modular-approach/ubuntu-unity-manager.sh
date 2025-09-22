@@ -12,7 +12,7 @@ source "$SCRIPT_DIR/modules/common.sh"
 
 # Source all modules
 source "$SCRIPT_DIR/modules/hotkeys.sh"
-source "$SCRIPT_DIR/modules/mmb-handler.sh"
+# source "$SCRIPT_DIR/modules/mmb-handler.sh"  # DEPRECATED: MMB handler not working reliably
 source "$SCRIPT_DIR/modules/screenshots.sh"
 source "$SCRIPT_DIR/modules/chrome-setup.sh"
 source "$SCRIPT_DIR/modules/autostart.sh"
@@ -48,7 +48,7 @@ install_all() {
     
     # Install all modules
     setup_hotkeys
-    setup_mmb_behavior
+    # setup_mmb_behavior  # DEPRECATED: MMB handler disabled due to reliability issues
     setup_screenshots
     setup_chrome_mmb || warn "Chrome setup failed (Chrome may not be installed)"
     setup_autostart
@@ -100,7 +100,7 @@ restart_services() {
     # Kill existing processes
     log "Stopping existing services..."
     pkill -f "ubuntu-unity-startup" || true
-    pkill -f "imwheel" || true
+    # pkill -f "imwheel" || true  # DEPRECATED: MMB handler disabled
     
     # Restart services
     log "Starting services..."
@@ -128,11 +128,12 @@ show_status() {
         echo "  ✗ ubuntu-unity-startup: Not running"
     fi
     
-    if pgrep -f "imwheel" >/dev/null; then
-        echo "  ✓ imwheel: Running"
-    else
-        echo "  ✗ imwheel: Not running"
-    fi
+    # MMB handler deprecated
+    # if pgrep -f "imwheel" >/dev/null; then
+    #     echo "  ✓ imwheel: Running"
+    # else
+    #     echo "  ✗ imwheel: Not running"
+    # fi
     
     # Check files
     echo ""
@@ -141,7 +142,7 @@ show_status() {
         "$HOME/.local/bin/smart-screenshot"
         "$HOME/.local/bin/ubuntu-unity-startup"
         "$HOME/.config/autostart/ubuntu-unity-startup.desktop"
-        "$HOME/.imwheelrc"
+        # "$HOME/.imwheelrc"  # DEPRECATED: MMB handler disabled
     )
     
     for file in "${files[@]}"; do

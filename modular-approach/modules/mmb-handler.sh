@@ -1,6 +1,15 @@
 #!/bin/bash
 # MMB (Middle Mouse Button) Handler Module
-# Fixes Ubuntu's default MMB paste behavior
+# DEPRECATED: This module has been deprecated due to reliability issues
+# The MMB handler conflicts with Chrome's native scrolling and causes more problems than it solves
+# 
+# Issues found:
+# - imwheel interferes with Chrome's native MMB autoscroll
+# - Complex window detection logic is unreliable
+# - GTK settings alone are insufficient for complete MMB paste prevention
+# - Chrome's MMB paste cannot be disabled through any known method
+#
+# Recommendation: Use Firefox if MMB paste prevention is critical, or live with Chrome's behavior
 
 setup_mmb_behavior() {
     header "Setting Up MMB Behavior"
@@ -81,8 +90,9 @@ enable_mmb() {
 
 # Function to disable MMB paste (for other applications)
 disable_mmb_paste() {
-    # Disable MMB (button 2) by mapping it to 0
-    xinput set-button-map "\$MOUSE_DEVICE" 1 0 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2>/dev/null || true
+    # Don't constantly remap buttons - this interferes with Chrome autoscroll
+    # Instead, just rely on GTK settings to disable primary paste
+    :
 }
 
 # Main monitoring loop
@@ -105,17 +115,30 @@ EOF
     
     chmod +x "$HOME/.local/bin/mmb-smart-handler"
     
-    # Method 4: Setup imwheel for enhanced scrolling
+    # Method 4: Setup imwheel for enhanced scrolling (exclude browsers)
     log "Setting up enhanced scrolling..."
     cat > "$HOME/.imwheelrc" << 'EOF'
-# Enhanced scrolling configuration
-".*"
+# Enhanced scrolling configuration - exclude browsers to prevent conflicts
+"^(?!.*Chrome)(?!.*Firefox)(?!.*Chromium).*"
 None,      Up,   Button4, 3
 None,      Down, Button5, 3
 Shift_L,   Up,   Shift_L|Button4
 Shift_L,   Down, Shift_L|Button5
 Control_L, Up,   Control_L|Button4
 Control_L, Down, Control_L|Button5
+
+# Let browsers handle their own scrolling natively
+".*Chrome.*"
+None, Up, Button4, 1
+None, Down, Button5, 1
+
+".*Firefox.*"
+None, Up, Button4, 1
+None, Down, Button5, 1
+
+".*Chromium.*"
+None, Up, Button4, 1
+None, Down, Button5, 1
 EOF
     
     # Kill existing processes and start new ones
@@ -123,8 +146,8 @@ EOF
     pkill imwheel 2>/dev/null || true
     pkill mmb-smart-handler 2>/dev/null || true
     
-    # Start services
-    imwheel -b "4 5" &
+    # Start services with proper configuration
+    imwheel &
     "$HOME/.local/bin/mmb-smart-handler" &
     
     log "MMB behavior configured successfully"
@@ -175,7 +198,7 @@ restart_mmb_services() {
     sleep 1
     
     log "Starting MMB services..."
-    imwheel -b "4 5" &
+    imwheel &
     "$HOME/.local/bin/mmb-smart-handler" &
     
     log "MMB services restarted"

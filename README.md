@@ -6,7 +6,7 @@ A collection of scripts to enhance Ubuntu 24.04 GNOME desktop with Windows-style
 
 - **Windows-style hotkeys**: Win+E, Win+D, Alt+Shift+S, etc.
 - **Enhanced screenshots**: Smart screenshot tool with clipboard integration
-- **MMB behavior improvements**: Reduces accidental pasting (with Chrome limitations)
+- **Chrome MMB optimization**: Enhanced Chrome launcher with better MMB support
 - **System optimization**: Clean, modular, and maintainable approach
 
 ## 🚀 Quick Start
@@ -34,23 +34,26 @@ cd modular-approach
 
 - **Hotkeys**: All Windows-style hotkeys work perfectly
 - **Screenshots**: Enhanced screenshot tool with clipboard support
-- **System MMB paste**: Disabled in most applications
-- **Chrome MMB functions**: New tabs, autoscroll, tab closing work
+- **Chrome MMB functions**: Enhanced Chrome launcher with optimized MMB behavior
 - **Modular design**: Easy to maintain and extend
 
 ## ⚠️ Known Limitations
 
-### Chrome MMB Paste Issue
-**Problem**: Middle mouse button still pastes in Chrome text fields.
+### MMB Handler Deprecated
+**Status**: The MMB handler module has been deprecated due to reliability issues.
 
-**Why**: Chrome's MMB paste is hardcoded at the browser engine level and cannot be disabled through any known method (flags, extensions, or policies).
+**Why**: 
+- Complex window detection was unreliable
+- imwheel interfered with Chrome's native MMB autoscroll
+- GTK settings alone insufficient for complete MMB paste prevention
+- Chrome's MMB paste cannot be disabled through any known method
 
-**Solutions**:
-1. **Use Firefox**: Has a setting to disable MMB paste completely
-2. **Be mindful**: Avoid middle-clicking in Chrome text fields
-3. **Clear selection**: Select nothing before using MMB in Chrome
+**Current Approach**: 
+- Enhanced Chrome launcher with optimized MMB flags
+- Focus on improving what works rather than fighting Chrome's limitations
+- Use Firefox if MMB paste prevention is critical
 
-**Research Status**: Extensively researched - this affects all Chrome users on Linux.
+**Research Status**: Extensively tested - Chrome's MMB behavior is hardcoded and cannot be reliably modified.
 
 ## 🛠️ Usage
 
@@ -97,10 +100,10 @@ cd modular-approach
 - **Organized storage**: Saved to ~/Pictures/Screenshots/
 - **Multiple formats**: Region, window, full screen
 
-### MMB Improvements
-- **System-wide paste disabled**: Prevents accidental pasting in terminals, editors
-- **Chrome functions preserved**: New tabs, autoscroll, tab closing still work
-- **Enhanced scrolling**: Smooth scrolling improvements
+### Chrome MMB Optimization
+- **Enhanced Chrome launcher**: Optimized flags for better MMB behavior
+- **Native MMB functions**: New tabs, autoscroll, tab closing work optimally
+- **Simplified approach**: Focus on what works rather than complex workarounds
 
 ## 🧪 Testing
 

@@ -14,41 +14,18 @@ setup_chrome_mmb() {
         return 1
     fi
     
-    # Create Chrome launcher with primary selection clearing (actually works!)
-    log "Creating Chrome launcher with MMB paste prevention..."
+    # Create Chrome launcher with enhanced MMB support (simple approach)
+    log "Creating Chrome launcher with enhanced MMB support..."
     cat > "$HOME/.local/bin/chrome-mmb" << 'EOF'
 #!/bin/bash
-# Chrome with MMB paste prevention via primary selection clearing
-# This is the only method that actually works reliably
+# Chrome with enhanced MMB support
+# Simple approach - just optimize Chrome's native MMB behavior
 
-# Function to clear primary selection while Chrome runs
-clear_primary_selection() {
-    local chrome_pid=$1
-    while kill -0 "$chrome_pid" 2>/dev/null; do
-        # Clear primary selection every 200ms to prevent MMB paste
-        echo "" | xclip -selection primary 2>/dev/null || true
-        sleep 0.2
-    done
-}
-
-# Start Chrome with enhanced MMB features
-google-chrome \
-  --enable-features=MiddleClickAutoscroll \
-  --enable-features=OverlayScrollbar \
-  --disable-features=TranslateUI \
+exec google-chrome \
+  --enable-features=MiddleClickAutoscroll,SmoothScrolling \
   --enable-smooth-scrolling \
-  --enable-features=ScrollAnchor \
-  --enable-features=ScrollUnification \
-  "$@" &
-
-# Get Chrome PID and start primary selection clearer
-CHROME_PID=$!
-clear_primary_selection "$CHROME_PID" &
-CLEANER_PID=$!
-
-# Wait for Chrome to exit, then cleanup
-wait "$CHROME_PID"
-kill "$CLEANER_PID" 2>/dev/null || true
+  --disable-features=OverscrollHistoryNavigation \
+  "$@"
 EOF
     
     chmod +x "$HOME/.local/bin/chrome-mmb"
@@ -61,10 +38,10 @@ EOF
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Chrome (No MMB Paste)
+Name=Chrome (MMB Enhanced)
 GenericName=Web Browser
-Comment=Google Chrome with MMB paste prevention
-Exec=/home/kian/.local/bin/chrome-mmb
+Comment=Google Chrome with enhanced MMB support
+Exec=%h/.local/bin/chrome-mmb
 Icon=google-chrome
 Terminal=false
 Categories=Network;WebBrowser;
@@ -81,9 +58,9 @@ EOF
     
     log "Chrome MMB setup complete"
     log "- Use: ~/.local/bin/chrome-mmb"
-    log "- Or find 'Chrome (No MMB Paste)' in applications menu"
-    log "- Primary selection clearing prevents MMB paste"
-    log "- MMB new tabs and autoscroll still work normally"
+    log "- Or find 'Chrome (MMB Enhanced)' in applications menu"
+    log "- Enhanced MMB autoscroll and smooth scrolling"
+    log "- MMB new tabs, autoscroll, and tab closing work optimally"
 }
 
 # Function to test Chrome setup
