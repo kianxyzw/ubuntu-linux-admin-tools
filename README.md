@@ -73,6 +73,23 @@ cd modular-approach
 ./ubuntu-unity-manager.sh test
 ```
 
+### Setup Website Blocker
+```bash
+./ubuntu-unity-manager.sh blocker
+```
+
+### Manage Website Blocking
+```bash
+# Check status
+~/.local/bin/website-blocker-status
+
+# Temporarily disable blocking
+~/.local/bin/disable-website-blocker
+
+# Re-enable blocking
+~/.local/bin/enable-website-blocker
+```
+
 ### Reset if Needed
 ```bash
 ./ubuntu-unity-manager.sh reset
@@ -105,6 +122,12 @@ cd modular-approach
 - **Enhanced Chrome launcher**: Optimized flags for better MMB behavior
 - **Native MMB functions**: New tabs, autoscroll, tab closing work optimally
 - **Simplified approach**: Focus on what works rather than complex workarounds
+
+### Website Blocker (Productivity)
+- **Block distracting sites**: Facebook, Instagram, Twitter, TikTok, Reddit, YouTube
+- **Easy management**: Enable/disable blocking with simple commands
+- **Hosts-based blocking**: Works across all browsers and applications
+- **Customizable**: Add or remove sites from block list
 
 ## 🧪 Testing
 

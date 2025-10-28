@@ -16,6 +16,7 @@ source "$SCRIPT_DIR/modules/hotkeys.sh"
 source "$SCRIPT_DIR/modules/screenshots.sh"
 source "$SCRIPT_DIR/modules/chrome-setup.sh"
 source "$SCRIPT_DIR/modules/autostart.sh"
+source "$SCRIPT_DIR/modules/website-blocker.sh"
 
 # Show help
 show_help() {
@@ -28,6 +29,7 @@ show_help() {
     echo "  status    - Show current status"
     echo "  backup    - Create backup"
     echo "  reset     - Reset hotkeys"
+    echo "  blocker   - Setup website blocker"
     echo "  help      - Show this help"
     echo ""
     echo "Examples:"
@@ -52,6 +54,16 @@ install_all() {
     setup_screenshots
     setup_chrome_mmb || warn "Chrome setup failed (Chrome may not be installed)"
     setup_autostart
+    
+    # Ask about website blocker
+    echo ""
+    read -p "Setup website blocker for productivity? (blocks Facebook, Instagram, etc.) (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        setup_website_blocker
+    else
+        log "Skipping website blocker setup"
+    fi
     
     log "Installation complete!"
     log "Please log out and log back in for all changes to take effect."
@@ -85,10 +97,17 @@ test_configuration() {
         fi
         
         # Test startup script
-        if [[ -f "$HOME/.config/autostart/ubuntu-unity-startup.desktop" ]]; then
+        if [[ -f "$HOME/.config/autostart/ubuntu-gnome-enhancements.desktop" ]]; then
             log "✓ Autostart configured"
         else
             warn "✗ Autostart not configured"
+        fi
+        
+        # Test website blocker
+        if sudo grep -q "# PRODUCTIVITY BLOCK START" /etc/hosts 2>/dev/null; then
+            log "✓ Website blocker installed"
+        else
+            log "ℹ️ Website blocker not installed (optional)"
         fi
     fi
 }
@@ -230,6 +249,9 @@ case "${1:-help}" in
         ;;
     "reset")
         reset_hotkeys
+        ;;
+    "blocker")
+        setup_website_blocker
         ;;
     "help"|"")
         show_help
